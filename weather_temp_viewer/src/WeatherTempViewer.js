@@ -75,19 +75,10 @@ function WeatherTempViewer() {
 
   // Style objects
   const boxStyle = {
-    background: BRAND_PRIMARY,
-    color: BRAND_SECONDARY,
-    borderRadius: "14px",
-    padding: "40px 32px",
-    display: "flex",
+    // Use CSS, but fallback to inline
+    borderRadius: "15px",
     flexDirection: window.innerWidth > 640 ? "row" : "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "48px",
-    boxShadow: "0 2px 18px 0 rgba(33,150,243,0.10)",
-    minWidth: 320,
-    maxWidth: 520,
-    margin: "1rem auto"
+    gap: "48px"
   };
   const tempValueStyle = {
     fontSize: "3.5rem",
@@ -105,7 +96,7 @@ function WeatherTempViewer() {
   };
   const descStyle = {
     marginTop: "18px",
-    color: "rgba(255,255,255,0.88)",
+    color: "#212121",
     fontSize: "1.10rem",
     letterSpacing: ".06em",
     textAlign: "center",
@@ -129,37 +120,50 @@ function WeatherTempViewer() {
     fontWeight: 600,
     marginTop: "16px"
   };
+  const sideLabelStyle = {
+    color: "rgba(255,255,255,0.76)",
+    fontSize: "1rem"
+  };
+
+  // Responsive border styling
+  const isWide = window.innerWidth > 640;
 
   return (
-    <section style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "300px" }}>
-      <div style={boxStyle}>
+    <section className="weather-temp-root-bg" style={{width: "100%"}}>
+      <div
+        className="weather-temp-viewer-box"
+        style={boxStyle}
+        data-testid="weather-temp-box"
+      >
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <span style={tempValueStyle}>
             {celsius !== null ? Math.round(celsius) : "--"}
             <span style={unitStyle}>°C</span>
           </span>
-          <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem" }}>Centigrade</span>
+          <span style={sideLabelStyle}>Centigrade</span>
         </div>
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          borderLeft: window.innerWidth > 640 ? "2px solid " + BRAND_SECONDARY : "none",
-          borderTop: window.innerWidth > 640 ? "none" : "2px solid " + BRAND_SECONDARY,
-          paddingLeft: window.innerWidth > 640 ? "40px" : "0",
-          marginTop: window.innerWidth > 640 ? "0" : "16px",
-          paddingTop: window.innerWidth > 640 ? "0" : "16px"
-        }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            borderLeft: isWide ? `2px solid ${BRAND_SECONDARY}` : "none",
+            borderTop: isWide ? "none" : `2px solid ${BRAND_SECONDARY}`,
+            paddingLeft: isWide ? "40px" : "0",
+            marginTop: isWide ? "0" : "18px",
+            paddingTop: isWide ? "0" : "18px"
+          }}>
           <span style={tempValueStyle}>
             {fahrenheit !== null ? Math.round(fahrenheit) : "--"}
             <span style={unitStyle}>°F</span>
           </span>
-          <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "1rem" }}>Fahrenheit</span>
+          <span style={sideLabelStyle}>Fahrenheit</span>
         </div>
       </div>
       {cityName && (
         <div style={descStyle}>
-          Weather for <span style={{ color: BRAND_ACCENT, fontWeight: 600 }}>{cityName}</span>, as of <span style={{ fontWeight: 500 }}>{new Date().toLocaleTimeString()}</span>
+          Weather for <span style={{ color: BRAND_ACCENT, fontWeight: 600 }}>{cityName}</span>,
+          as of <span style={{ fontWeight: 500 }}>{new Date().toLocaleTimeString()}</span>
         </div>
       )}
       {errorMsg && <div style={errorStyle}>{errorMsg}</div>}
