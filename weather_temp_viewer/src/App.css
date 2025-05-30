@@ -9,32 +9,271 @@
   --border-color: rgba(33, 150, 243, 0.11);
 }
 
-/* Extra: WeatherTempViewer background and minimal container */
+/* Extra: WeatherTempViewer background and container */
 .weather-temp-root-bg {
   background: var(--secondary, #fff);
   min-height: 100vh;
   margin: 0;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
   padding: 0;
+  width: 100%;
 }
 
-/* For main temperature box (override inline for consistency) */
 .weather-temp-viewer-box {
   background: var(--primary, #2196F3);
   color: var(--secondary, #fff);
   border-radius: 16px;
   box-shadow: 0 2px 18px 0 rgba(33,150,243,0.10);
-  min-width: 320px;
-  max-width: 520px;
-  margin: 1.5rem auto;
-  padding: 36px 28px;
+  min-width: 300px;
+  max-width: 500px;
+  margin: 1.5rem auto 0;
+  padding: 37px 24px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 48px;
+  width: 100%;
+  transition: box-shadow 0.18s;
+  border: none;
+}
+
+@media (max-width: 640px) {
+  .weather-temp-viewer-box {
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+    width: 95vw;
+    max-width: 99vw;
+    padding: 28px 7vw;
+  }
+}
+
+/* Temperature block vertical container */
+.weather-temp-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Temperature value styling */
+.weather-temp-value {
+  font-size: 3.4rem;
+  font-weight: 600;
+  margin-bottom: 3px;
+  color: var(--secondary, #fff);
+  text-shadow: 0 1px 6px rgba(33,150,243,0.15);
+  letter-spacing: -2px;
+  line-height: 1.05;
+  display: flex;
+  align-items: flex-end;
+}
+.weather-temp-value--f,
+.weather-temp-value--c {
+  /* allow overrides if necessary in future */
+}
+.weather-temp-unit {
+  font-size: 1.3rem;
+  color: var(--accent, #FF9800);
+  font-weight: 600;
+  margin-left: 10px;
+  letter-spacing: 0;
+}
+.weather-temp-label {
+  color: rgba(255,255,255,0.77);
+  font-size: 1.05rem;
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+@media (min-width: 640px) {
+  .weather-temp-block--f {
+    border-left: 2.2px solid var(--secondary, #fff);
+    padding-left: 34px;
+    margin-left: 14px;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+  .weather-temp-block--c {
+    margin-right: 5px;
+  }
+}
+@media (max-width: 639px) {
+  .weather-temp-block--f {
+    border-left: none;
+    border-top: 2px solid var(--secondary, #fff);
+    margin-top: 12px;
+    padding-top: 17px;
+    padding-left: 0;
+  }
+}
+
+/* Description below temps */
+.weather-temp-desc {
+  margin: 19px auto 0;
+  color: #212121;
+  font-size: 1.08rem;
+  letter-spacing: .06em;
+  text-align: center;
+  font-weight: 400;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+.weather-temp-accent {
+  color: var(--accent, #FF9800);
+  font-weight: 600;
+}
+.weather-temp-time {
+  font-weight: 500;
+}
+
+/* Error style */
+.weather-temp-error {
+  color: #FF5252;
+  font-weight: 600;
+  margin-top: 15px;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+/* Refresh Button */
+.weather-temp-refresh-btn {
+  margin-top: 29px;
+  background: var(--primary, #2196F3) linear-gradient(109deg, #2196f3 82%, #007acb 100%);
+  color: var(--secondary, #fff);
+  border: none;
+  border-radius: 6px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 12px 30px;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.13s;
+  box-shadow: 0 2px 8px 0 rgba(33,150,243,0.13);
+  letter-spacing: .02em;
+  outline: none;
+  position: relative;
+}
+
+.weather-temp-refresh-btn:active,
+.weather-temp-refresh-btn:focus {
+  outline: 2.5px solid var(--accent, #FF9800);
+  outline-offset: 0.5px;
+}
+
+.weather-temp-refresh-btn:hover:not(:disabled) {
+  background: var(--accent, #FF9800);
+  color: #fff;
+}
+
+.weather-temp-refresh-btn:disabled {
+  background: #bdbdbd;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+/* For main application and layout */
+body {
+  margin: 0;
+  font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  background-color: var(--kavia-dark);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  background-color: var(--kavia-dark);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-symbol {
+  color: var(--kavia-orange);
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hero {
+  padding-top: 120px;
+  padding-bottom: 64px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.subtitle {
+  color: var(--kavia-orange);
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin-bottom: 16px;
+}
+
+.btn {
+  background-color: var(--kavia-orange);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #FF8B4D;
+}
+
+.btn-large {
+  padding: 12px 24px;
+  font-size: 1.1rem;
 }
 
 body {
