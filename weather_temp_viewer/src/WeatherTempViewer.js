@@ -5,12 +5,16 @@ import React, { useEffect, useState, useCallback } from "react";
  * WeatherTempViewer
  * Fetches and displays the current temperature in both Centigrade and Fahrenheit units.
  * Allows users to refresh via a button. Uses Open-Meteo public weather API.
+ * Minimal, readable layout with prominent temperature, colors per spec.
  */
 function WeatherTempViewer() {
-  // Color constants matching brand/theme
-  const BRAND_PRIMARY = "#2196F3";
-  const BRAND_SECONDARY = "#FFFFFF";
-  const BRAND_ACCENT = "#FF9800";
+  // Use CSS variables for theme; fallback to hardcoded if missing
+  const BRAND_PRIMARY =
+    getComputedStyle(document.documentElement).getPropertyValue("--primary") || "#2196F3";
+  const BRAND_SECONDARY =
+    getComputedStyle(document.documentElement).getPropertyValue("--secondary") || "#FFFFFF";
+  const BRAND_ACCENT =
+    getComputedStyle(document.documentElement).getPropertyValue("--accent") || "#FF9800";
 
   const [celsius, setCelsius] = useState(null);
   const [fahrenheit, setFahrenheit] = useState(null);
