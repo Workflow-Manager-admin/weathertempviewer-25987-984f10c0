@@ -1,9 +1,40 @@
 :root {
+  --primary: #2196F3;
+  --secondary: #FFFFFF;
+  --accent: #FF9800;
   --kavia-orange: #E87A41;
   --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
+  --text-color: #222;
+  --text-secondary: rgba(0,0,0,0.60);
+  --border-color: rgba(33, 150, 243, 0.11);
+}
+
+/* Extra: WeatherTempViewer background and minimal container */
+.weather-temp-root-bg {
+  background: var(--secondary, #fff);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+}
+
+/* For main temperature box (override inline for consistency) */
+.weather-temp-viewer-box {
+  background: var(--primary, #2196F3);
+  color: var(--secondary, #fff);
+  border-radius: 16px;
+  box-shadow: 0 2px 18px 0 rgba(33,150,243,0.10);
+  min-width: 320px;
+  max-width: 520px;
+  margin: 1.5rem auto;
+  padding: 36px 28px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
 }
 
 body {
