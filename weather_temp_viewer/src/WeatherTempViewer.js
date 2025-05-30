@@ -1,21 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 
-// PUBLIC_INTERFACE
 /**
  * WeatherTempViewer
  * Fetches and displays the current temperature in both Centigrade and Fahrenheit units.
  * Allows users to refresh via a button. Uses Open-Meteo public weather API.
  * Minimal, readable layout with prominent temperature, colors per spec.
  */
+// PUBLIC_INTERFACE
 function WeatherTempViewer() {
-  // Use CSS variables for theme; fallback to hardcoded if missing
-  const BRAND_PRIMARY =
-    getComputedStyle(document.documentElement).getPropertyValue("--primary") || "#2196F3";
-  const BRAND_SECONDARY =
-    getComputedStyle(document.documentElement).getPropertyValue("--secondary") || "#FFFFFF";
-  const BRAND_ACCENT =
-    getComputedStyle(document.documentElement).getPropertyValue("--accent") || "#FF9800";
-
   const [celsius, setCelsius] = useState(null);
   const [fahrenheit, setFahrenheit] = useState(null);
   const [cityName, setCityName] = useState("");
@@ -73,102 +65,35 @@ function WeatherTempViewer() {
     // eslint-disable-next-line
   }, [fetchTemperature]);
 
-  // Style objects
-  const boxStyle = {
-    // Use CSS, but fallback to inline
-    borderRadius: "15px",
-    flexDirection: window.innerWidth > 640 ? "row" : "column",
-    gap: "48px"
-  };
-  const tempValueStyle = {
-    fontSize: "3.5rem",
-    fontWeight: 600,
-    marginBottom: "0.25em",
-    color: BRAND_SECONDARY,
-    textShadow: "0 1px 6px rgba(33,150,243,0.15)",
-    letterSpacing: "-2px"
-  };
-  const unitStyle = {
-    fontSize: "1.4rem",
-    color: BRAND_ACCENT,
-    fontWeight: 600,
-    marginLeft: "9px"
-  };
-  const descStyle = {
-    marginTop: "18px",
-    color: "#212121",
-    fontSize: "1.10rem",
-    letterSpacing: ".06em",
-    textAlign: "center",
-    fontWeight: 400
-  };
-  const refreshBtnStyle = {
-    marginTop: "28px",
-    background: BRAND_ACCENT,
-    color: BRAND_SECONDARY,
-    border: 0,
-    borderRadius: "6px",
-    fontSize: "1rem",
-    fontWeight: 600,
-    padding: "12px 28px",
-    cursor: "pointer",
-    transition: "background 0.18s",
-    boxShadow: "0 1px 7px 0 rgba(255,152,0,0.13)"
-  };
-  const errorStyle = {
-    color: "#FF5252",
-    fontWeight: 600,
-    marginTop: "16px"
-  };
-  const sideLabelStyle = {
-    color: "rgba(255,255,255,0.76)",
-    fontSize: "1rem"
-  };
-
-  // Responsive border styling
-  const isWide = window.innerWidth > 640;
-
   return (
-    <section className="weather-temp-root-bg" style={{width: "100%"}}>
+    <section className="weather-temp-root-bg" style={{ width: "100%" }}>
       <div
         className="weather-temp-viewer-box"
-        style={boxStyle}
         data-testid="weather-temp-box"
       >
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <span style={tempValueStyle}>
+        <div className="weather-temp-block weather-temp-block--c">
+          <span className="weather-temp-value weather-temp-value--c">
             {celsius !== null ? Math.round(celsius) : "--"}
-            <span style={unitStyle}>°C</span>
+            <span className="weather-temp-unit weather-temp-unit--c">°C</span>
           </span>
-          <span style={sideLabelStyle}>Centigrade</span>
+          <span className="weather-temp-label weather-temp-label--c">Centigrade</span>
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            borderLeft: isWide ? `2px solid ${BRAND_SECONDARY}` : "none",
-            borderTop: isWide ? "none" : `2px solid ${BRAND_SECONDARY}`,
-            paddingLeft: isWide ? "40px" : "0",
-            marginTop: isWide ? "0" : "18px",
-            paddingTop: isWide ? "0" : "18px"
-          }}>
-          <span style={tempValueStyle}>
+        <div className="weather-temp-block weather-temp-block--f">
+          <span className="weather-temp-value weather-temp-value--f">
             {fahrenheit !== null ? Math.round(fahrenheit) : "--"}
-            <span style={unitStyle}>°F</span>
+            <span className="weather-temp-unit weather-temp-unit--f">°F</span>
           </span>
-          <span style={sideLabelStyle}>Fahrenheit</span>
+          <span className="weather-temp-label weather-temp-label--f">Fahrenheit</span>
         </div>
       </div>
       {cityName && (
-        <div style={descStyle}>
-          Weather for <span style={{ color: BRAND_ACCENT, fontWeight: 600 }}>{cityName}</span>,
-          as of <span style={{ fontWeight: 500 }}>{new Date().toLocaleTimeString()}</span>
+        <div className="weather-temp-desc">
+          Weather for <span className="weather-temp-accent">{cityName}</span>, as of <span className="weather-temp-time">{new Date().toLocaleTimeString()}</span>
         </div>
       )}
-      {errorMsg && <div style={errorStyle}>{errorMsg}</div>}
+      {errorMsg && <div className="weather-temp-error">{errorMsg}</div>}
       <button
-        style={refreshBtnStyle}
+        className="weather-temp-refresh-btn"
         disabled={loading}
         aria-label="Refresh temperature"
         onClick={fetchTemperature}
@@ -176,7 +101,7 @@ function WeatherTempViewer() {
       >
         {loading ? "Refreshing..." : "Refresh"}
       </button>
-      <div style={{ height: "18px" }} />
+      <div style={{ height: "18px" }} aria-hidden="true"/>
     </section>
   );
 }
